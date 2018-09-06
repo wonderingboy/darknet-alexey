@@ -281,13 +281,15 @@ void draw_detections_v3(image im, detection *dets, int num, float thresh, char *
     detection_with_class* selected_detections = get_actual_detections(dets, num, thresh, &selected_detections_num);
 
     // text output
+
+    // Se modifica la generacion de texto
     qsort(selected_detections, selected_detections_num, sizeof(*selected_detections), compare_by_lefts);
     int i;
     for (i = 0; i < selected_detections_num; ++i) {
         const int best_class = selected_detections[i].best_class;
-        printf("%s: %.0f%%", names[best_class],    selected_detections[i].det.prob[best_class] * 100);
+        printf("%s %f  ", names[best_class],    selected_detections[i].det.prob[best_class]);
         if (ext_output)
-            printf("\t(left_x: %4.0f   top_y: %4.0f   width: %4.0f   height: %4.0f)\n",
+            printf("%.0f %.0f %.0f %.0f\n",
                 (selected_detections[i].det.bbox.x - selected_detections[i].det.bbox.w / 2)*im.w,
                 (selected_detections[i].det.bbox.y - selected_detections[i].det.bbox.h / 2)*im.h,
                 selected_detections[i].det.bbox.w*im.w, selected_detections[i].det.bbox.h*im.h);
